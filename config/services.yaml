@@ -30,6 +30,19 @@ parameters:
                 upper: 20000
                 lower: -20000
 
+        mqtt:
+            enabled: false
+            host: localhost
+            clientId: strichliste
+            port: 1883
+            authentication: false
+            username: user
+            password: secret
+            flattenTransactionInfo: false
+            topics:
+                transactionValue: 'strichliste/transactionValue'
+                transactionInfo: 'strichliste/transactionInfo'
+
         # Be aware: All amounts are in cents!
         payment:
             undo:
@@ -88,5 +101,10 @@ services:
     App\EventListener\ApiExceptionListener:
         tags:
         - { name: kernel.event_listener, event: kernel.exception }
+
+    App\EventListener\TransactionCreatedListener:
+        tags:
+        - { name: kernel.event_listener, event: transaction.created }
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
